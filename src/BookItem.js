@@ -19,7 +19,7 @@ class BookItem extends Component {
   render() {
      return (<div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("{this.state.imageUrl}")' }}></div>
+                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+this.props.imageURL+'")' }}></div>
                  <BookItemOptions />
               </div>
               <div className="book-title">{this.props.title}</div>

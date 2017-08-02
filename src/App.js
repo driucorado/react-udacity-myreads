@@ -41,13 +41,14 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     //get all bootks
-    this.setState({books: []})
+    this.setState({searchResult: BooksAPI.search('Art', 20)})
+    console.log(this.state);
   }
 
   render() {
     return (
       <div className="app">
-             <Route path="/search" render={() => (
+             <Route path="/add" render={() => (
                 <SearchBookList />
             )} />
              <Route exact path="/" render={(history) => (
