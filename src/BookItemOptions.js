@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
 class BookItemOptions extends Component {
+  componentDidMount() {
+    
+  }
   render() {
      return ( <div className="book-shelf-changer">
                   <select>
