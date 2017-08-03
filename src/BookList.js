@@ -12,9 +12,11 @@ class BookList extends Component {
             </div>
             <div className="list-books-content">
               <div>
-                {this.props.shelfs.map( (shelf, index) => (
-                	<BookShelf key={`shelf_${index}`} title={shelf.title} books={shelf.books} />
-                ))}
+              	{Object.keys(this.props.shelfs).map((shelfId) => {
+              		let books = this.props.shelfs[shelfId]
+              		let title = this.props.wording.shelfs[shelfId]
+					return <BookShelf key={`shelf_${shelfId}`} title={title} books={books} />
+              	})}
               </div>
             </div>
             <div className="open-search">
