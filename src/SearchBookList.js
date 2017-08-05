@@ -23,6 +23,16 @@ class SearchBookList extends Component {
       
   }
 
+  updateBooks = (book, shelf) => {
+    console.log(book)
+    console.log(shelf)
+    this.setState((state) => {
+      state.books = state.books.filter((filterBook) => (filterBook.id !== book.id))
+      return state
+    })
+    if (this.props.onAddBookToShelf) this.props.onAddBookToShelf(book, shelf);
+  }
+
 	render() {
 		return (<div className="search-books">
             <div className="search-books-bar">
@@ -41,7 +51,7 @@ class SearchBookList extends Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-              	<BookShelf title="Results" books={this.state.books} mode="+" onAddBookToShelf={this.props.onAddBookToShelf}  />
+              	<BookShelf title="Results" books={this.state.books} mode="+" onAddBookToShelf={this.updateBooks}  />
               </ol>
             </div>
           </div>)

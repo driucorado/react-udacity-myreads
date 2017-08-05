@@ -11,7 +11,8 @@ const wording = {shelfs : {currentlyReading: 'Currently Reading', wantToRead: 'W
 class BooksApp extends Component {
   state = {
     shelfs: {},
-    bookIds: {}
+    bookIds: {},
+    query: ''
   }
 
   componentDidMount() {
@@ -50,6 +51,7 @@ class BooksApp extends Component {
   addBookToShelf = (book, shelf) => {
       console.log(shelf)
       console.log(book)
+      book.shelf = shelf
       this.setState((state) => (
         state.shelfs[shelf].push(book)
       ))
@@ -61,7 +63,8 @@ class BooksApp extends Component {
     this.setState((state) => {
         state.shelfs[book.shelf] = state.shelfs[book.shelf].filter((bookFilter) => (bookFilter.id !== book.id))
         book.shelf = newShelf;
-        state.shelfs[newShelf].push(book)
+        if (newShelf !== 'none')
+          state.shelfs[newShelf].push(book)
         return state;
     })
   }

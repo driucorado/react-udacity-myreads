@@ -18,8 +18,10 @@ class BookShelf extends Component {
                     <ol className="books-grid">
                     	{this.props.books.map( (book, index) => (
                     		<li key={index}>
-                    			<BookItem book={book} mode={this.props.mode} onAddBookToShelf={this.props.onAddBookToShelf ? this.props.onAddBookToShelf : null}  
-									onChangeBookShelf={this.props.onChangeBookShelf ? this.props.onChangeBookShelf : null}
+                    			<BookItem book={book} 
+                    			mode={this.props.mode} 
+                    			onAddBookToShelf={this.props.onAddBookToShelf ? this.props.onAddBookToShelf : null}  
+								onChangeBookShelf={this.props.onChangeBookShelf ? this.props.onChangeBookShelf : null}
                     			/>
                     		</li>
                     	))}
