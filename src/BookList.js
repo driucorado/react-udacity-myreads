@@ -14,8 +14,9 @@ class BookList extends Component {
               <div>
               	{Object.keys(this.props.shelfs).map((shelfId) => {
               		let books = this.props.shelfs[shelfId]
-              		let title = this.props.wording.shelfs[shelfId]
-					return <BookShelf key={`shelf_${shelfId}`} title={title} books={books} />
+              		//replace titles for shelf
+              		let title = this.props.wording.shelfs[shelfId] 
+					return <BookShelf onChangeBookShelf={this.props.onChangeBookShelf} key={`shelf_${shelfId}`} title={title} books={books} />
               	})}
               </div>
             </div>

@@ -1,38 +1,34 @@
-import React from 'react'
+import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import { Route } from 'react-router-dom';
 import SearchBookList from './SearchBookList';
 import BookList from './BookList';
 
+//variable that has all the english translation o every id that it is in the system
 const wording = {shelfs : {currentlyReading: 'Currently Reading', wantToRead: 'Want to Read', read: 'Read' }}
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: true,
-    shelfs: {}
+    shelfs: {},
+    bookIds: {}
   }
 
   componentDidMount() {
     //get all bootks
     BooksAPI.getAll().then((books) => {
       let dataBooks = {}
+      let bookIds = {}
       books.forEach((book) => {
         dataBooks[book.shelf] = dataBooks[book.shelf] || [];
         dataBooks[book.shelf].push(book)
+        bookIds[book.id] = true;
       })
       this.setState((state) => {
         state.shelfs = dataBooks;
+        state.bookIds = bookIds;
         return state;
       })
-      console.log(dataBooks)
-
       // books.map.map((book) => {
       //   dataBooks[book.shelf] = book
       //   return book;
@@ -47,9 +43,29 @@ class BooksApp extends React.Component {
     });
   }
 
-  addBookToShelf(book, shelf) {
-
+  checkIdBook = (id) => {
+    return this.state.bookIds.hasOwnProperty(id);
   }
+
+  addBookToShelf = (book, shelf) => {
+      console.log(shelf)
+      console.log(book)
+      this.setState((state) => (
+        state.shelfs[shelf].push(book)
+      ))
+  }
+
+  changeBookShelf = (book, newShelf) => {
+    console.log(newShelf)
+    console.log(book)
+    this.setState((state) => {
+        state.shelfs[book.shelf] = state.shelfs[book.shelf].filter((bookFilter) => (bookFilter.id !== book.id))
+        book.shelf = newShelf;
+        state.shelfs[newShelf].push(book)
+        return state;
+    })
+  }
+
 
 
 
@@ -57,10 +73,14 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
              <Route path="/add" render={() => (
-                <SearchBookList />
+                <SearchBookList 
+                onAddBookToShelf={this.addBookToShelf} onCheckBookId={this.checkIdBook}/>
             )} />
              <Route exact path="/" render={(history) => (
-                <BookList shelfs={this.state.shelfs} wording={wording} />
+                <BookList 
+                shelfs={this.state.shelfs} 
+                onChangeBookShelf={this.changeBookShelf} 
+                wording={wording} />
             )} />
       </div>
     )

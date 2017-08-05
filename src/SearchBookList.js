@@ -7,22 +7,27 @@ class SearchBookList extends Component {
 	state =  {query : '', books: []}
 
   updateQuery = (newQuery) => {
-      // if (newQuery.length > 3) {
-        BooksAPI.search(newQuery.trim(), 10).then(books => {
-          this.setState((state) => (
-                state.books = books
-            ))
-        })
-      // }
       //update query
       this.setState((state) => (state.query = newQuery.trim()))
+      // if (newQuery.length > 3) {
+        BooksAPI.search(newQuery.trim(), 10).then(books => {
+          if (!books.hasOwnProperty("error")) {
+            this.setState((state) => {
+                  let filterBooks = books.filter((book) => (!this.props.onCheckBookId(book.id)))
+                  state.books = filterBooks
+                  return state
+              })
+          }
+        })
+      // }
+      
   }
 
 	render() {
 		return (<div className="search-books">
             <div className="search-books-bar">
               <Link className="close-search" to='/' >Close</Link>
-              <div className="search-books-input-wrapper">
+              <div className="search-books-input-wrapper"> 
                 {/* 
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
                   You can find these search terms here:
@@ -36,7 +41,7 @@ class SearchBookList extends Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-              	<BookShelf title="Results" books={this.state.books} />
+              	<BookShelf title="Results" books={this.state.books} mode="+" onAddBookToShelf={this.props.onAddBookToShelf}  />
               </ol>
             </div>
           </div>)
